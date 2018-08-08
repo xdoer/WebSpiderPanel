@@ -1,28 +1,56 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <mainComp/>
+    <left/>
+    <login-or-signup/>
+    <share/>
+    <span @click="istate=!istate" class="manage" v-if="user">管理页面</span>    
+    <transition name="fade">
+      <manage v-if="istate&&user"/>
+    </transition>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import mainComp from './components/main.vue'
+import left from './components/left.vue'
+import loginOrSignup from './components/loginOrSignup.vue'
+import share from './components/share.vue'
+import manage from './components/manage.vue'
+
 
 export default {
   name: 'app',
+  data(){
+    return {
+      istate:false
+    }
+  },
   components: {
-    HelloWorld
-  }
+    mainComp,
+    left,
+    loginOrSignup,
+    share,
+    manage
+  },
+  computed:{
+      user(){
+          return this.$store.state.user
+      }
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.manage{
+  /* display: block; */
+  width: 30px;
+  cursor: pointer;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to{
+  opacity: 0;
 }
 </style>

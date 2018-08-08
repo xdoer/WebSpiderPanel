@@ -1,17 +1,42 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>websplider2</title>
-  </head>
-  <body>
+    <link rel="icon" href="favicon.ico">
+    <title>WebSplider</title>
+    <link rel="stylesheet" href="css/iconfont.css">
+    <style>
+        html {
+            height: 100%;
+        }
+        
+        body {
+            padding: 0px;
+            margin: 0px;
+            height: 100%;
+            position: relative;
+            font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+            overflow-y: scroll;
+        }
+        
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .light {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
     <noscript>
       <strong>We're sorry but websplider2 doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+</body>
+
 </html>
