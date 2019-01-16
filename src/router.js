@@ -12,14 +12,32 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
-    },
+      redirect: '/crawl',
+      children: [{
+          path: '/crawl',
+          name: 'crawl',
+          component: () => import('@/components/WebSpider')
+        }, {
+          path: '/proxy',
+          name: 'proxy',
+          component: () => import('@/components/Proxy')
+        }, {
+          path: '/guide',
+          name: 'guide',
+          component: () => import('@/components/Guide')
+        }, {
+          path: '/log',
+          name: 'log',
+          component: () => import('@/components/Log')
+        }, {
+          path: '/manage',
+          name: 'manage',
+          component: () => import('@/components/Manage')
+        }, {
+          path: '/share',
+          name: 'share',
+          component: () => import('@/components/Share')
+        }]
+    }, 
   ],
 });
