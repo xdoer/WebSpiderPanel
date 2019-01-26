@@ -1,9 +1,11 @@
 import Vue from 'vue';
+import './plugins/axios';
 import App from './App.vue';
 import router from './router';
 import store from './store';
 import 'element-ui/lib/theme-chalk/index.css';
-import './plugins/element.js'
+import './plugins/element';
+
 
 Vue.config.productionTip = false;
 

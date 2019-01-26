@@ -1,69 +1,92 @@
 <template>
   <div class="container">
-    <div class="head">
-      <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
-        <el-tab-pane v-for="tab in tabList" :label="tab.label" :name="tab.name">{{ tab.label }}</el-tab-pane>
-      </el-tabs>
-    </div>
-    <div class="main">
-      <keep-alive>
-        <router-view/>
-      </keep-alive>
-    </div>
+    <el-tabs
+      v-model="activeName"
+      tab-position="left"
+      type="border-card"
+      class="panel"
+      @tab-click="handleClick">
+      <el-tab-pane
+        v-for="tab in tabList"
+        :key="tab.label"
+        :label="tab.label"
+        :name="tab.name">
+        {{ tab.label }}
+      </el-tab-pane>
+      <div class="main">
+        <keep-alive>
+          <router-view/>
+        </keep-alive>
+      </div>
+    </el-tabs>
   </div>
 </template>
 
 <script>
 export default {
   name: 'home',
-  data () {
+  data() {
     return {
       activeName: 'crawl',
-      tabList:[{
+      tabList: [{
         label: 'WebSpider',
-        name: 'crawl'
+        name: 'crawl',
       }, {
         label: 'Http代理',
-        name: 'proxy'
+        name: 'proxy',
       }, {
-        label: '操作说明',
-        name: 'guide',
-      }, {
-        label: 'API分享',
+        label: 'API Store',
         name: 'share',
       }, {
         label: '管理面板',
-        name: 'manage'
+        name: 'manage',
+      }, {
+        label: '使用说明',
+        name: 'guide',
       }, {
         label: '更新日志',
-        name: 'log'
-      }]
-    }
+        name: 'log',
+      }],
+    };
   },
   methods: {
     handleClick(tab) {
-      this.$router.push(`/${tab.name}`)
+      this.$router.push(`/${tab.name}`);
+    },
+  },
+  mounted() {
+    const main = document.querySelector('.main');
+    main.style.height = `calc(100vh - ${main.offsetTop + 50}px)`;
+
+    switch (this.$route.name) {
+      case 'crawl': this.activeName = 'crawl'; break;
+      case 'guide': this.activeName = 'guide'; break;
+      case 'proxy': this.activeName = 'proxy'; break;
+      case 'share': this.activeName = 'share'; break;
+      case 'manage': this.activeName = 'manage'; break;
+      case 'log': this.activeName = 'log'; break;
+      default: this.activeName = 'crawl'; break;
     }
-  }
+  },
 };
 </script>
 
 <style lang="stylus">
 .container{
-  height 100vh
+  height calc(100vh - 30px)
   width 70%
-  margin 20px auto 0px
-  .head{
-    width 100%
-  }
-  .main{
-    width 100%
-    height 500px
-    padding 20px 0px 0px 0px
-    // background yellow
+  margin 20px auto 10px
+  .panel{
+    height 100%
+    .main{
+      padding-top 10px
+      height calc(100% - 10px)
+      overflow-y scroll
+      border 1px solid #dcdfe6
+      -webkit-box-shadow 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04)
+      box-shadow 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04)
+    }
   }
 }
-
-  
 
 </style>

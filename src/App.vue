@@ -5,16 +5,17 @@
 </template>
 
 <script>
-
 export default {
-  name: 'app'
-}
+  name: 'app',
+};
 </script>
 
 <style lang="stylus">
 html,body{
   margin 0px
   padding 0px
+  word-break break-all
+
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
