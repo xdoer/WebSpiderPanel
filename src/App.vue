@@ -15,7 +15,8 @@ html,body{
   margin 0px
   padding 0px
   word-break break-all
-
+  width 100%
+  height 100%
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
