@@ -1,13 +1,7 @@
 <template>
   <div class="manage">
-    <div class="contral">
-      <div><el-button type="primary">登录</el-button></div>
-      <div><el-button type="primary">注册</el-button></div>
-    </div>
-    <div class="panel">
       <el-table
-        :data="apis"
-        style="width: 100%">
+        :data="apis">
         <el-table-column :show-overflow-tooltip="true" type="expand">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
@@ -40,11 +34,9 @@
         </el-table-column>
         <el-table-column
           label="目标网站"
-          width="400px"
           prop="config.url">
         </el-table-column>
         <el-table-column
-          width="200px"
           align="right"
           label="操作">
           <template slot-scope="scope">
@@ -53,7 +45,6 @@
           </template>
         </el-table-column>
       </el-table>
-    </div>
   </div>
 </template>
 
@@ -118,7 +109,7 @@ export default {
   async mounted() {
     try {
       const res = await fetchManageConfig({ page: this.page, pageSize: this.pageSize })
-      this.apis = res.data.data
+      // this.apis = res.data.data
     } catch(e) {
       console.log('捕获到错误',e)
     }

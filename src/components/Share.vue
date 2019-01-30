@@ -1,55 +1,50 @@
 <template>
   <div class="share">
-    <div class="config">
-      <!-- 啦啦 -->
-    </div>
-    <div class="preview">
-      <el-table
-        :data="apis"
-        style="width: 100%">
-        <el-table-column :show-overflow-tooltip="true" type="expand">
-          <template slot-scope="props">
-            <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="API地址" style="width:100%">
-                <span>{{ props.row.api }}</span>
-              </el-form-item>
-              <el-form-item label="抓取深度">
-                <span>{{ props.row.config.depth }}</span>
-              </el-form-item>
-              <el-form-item label="更新间隔">
-                <span>{{ props.row.interval }}</span>
-              </el-form-item>
-              <el-form-item label="抓取模式">
-                <span>{{ props.row.config.mode }}</span>
-              </el-form-item>
-              <el-form-item label="代理模式">
-                <span>{{ props.row.config.proxyMode }}</span>
-              </el-form-item>
-              <el-form-item label="选择器" style="width:100%">
-                <span>{{ props.row.config.tags }}</span>
-              </el-form-item>
-              <el-form-item label="输出格式" style="width:100%">
-                <span>{{ props.row.config.form }}</span>
-              </el-form-item>
-              <el-form-item label="描述信息" style="width:100%">
-                <span>{{ props.row.description }}</span>
-              </el-form-item>
-            </el-form>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="目标网站"
-          prop="config.url">
-        </el-table-column>
-        <el-table-column
-          align="right"
-          label="标签">
-          <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="onEditApi(scope.row, scope.$index)">编辑</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
+    <el-table
+      :data="apis"
+      style="width: 100%">
+      <el-table-column :show-overflow-tooltip="true" type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="API地址" style="width:100%">
+              <span>{{ props.row.api }}</span>
+            </el-form-item>
+            <el-form-item label="抓取深度">
+              <span>{{ props.row.config.depth }}</span>
+            </el-form-item>
+            <el-form-item label="更新间隔">
+              <span>{{ props.row.interval }}</span>
+            </el-form-item>
+            <el-form-item label="抓取模式">
+              <span>{{ props.row.config.mode }}</span>
+            </el-form-item>
+            <el-form-item label="代理模式">
+              <span>{{ props.row.config.proxyMode }}</span>
+            </el-form-item>
+            <el-form-item label="选择器" style="width:100%">
+              <span>{{ props.row.config.tags }}</span>
+            </el-form-item>
+            <el-form-item label="输出格式" style="width:100%">
+              <span>{{ props.row.config.form }}</span>
+            </el-form-item>
+            <el-form-item label="描述信息" style="width:100%">
+              <span>{{ props.row.description }}</span>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="目标网站"
+        prop="config.url">
+      </el-table-column>
+      <el-table-column
+        align="right"
+        label="标签">
+        <template slot-scope="scope">
+          <el-button type="primary" size="mini" @click="onGetTag(scope.row, scope.$index)">{{scope.row.tag}}</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -81,11 +76,14 @@ export default {
     }
   },
   methods: {
-
+    onGetTag(item, idx) {
+      console.log(item, idx)
+    }
   },
   async mounted() {
     try {
       const res = await fetchShareConfig()
+      console.log(res.data)
       if (res.data.state) {
         this.apis = res.data.data
       } else {

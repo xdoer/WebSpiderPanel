@@ -1,24 +1,13 @@
 <template>
   <div class="container">
-    <el-tabs
-      v-model="activeName"
-      tab-position="left"
-      type="border-card"
-      class="panel"
-      @tab-click="handleClick">
-      <el-tab-pane
-        v-for="tab in tabList"
-        :key="tab.label"
-        :label="tab.label"
-        :name="tab.name">
-        {{ tab.label }}
-      </el-tab-pane>
-      <div class="main">
-        <keep-alive>
-          <router-view/>
-        </keep-alive>
-      </div>
-    </el-tabs>
+  <el-menu :default-active="activeIndex" class="head" mode="horizontal" @select="handleClick">
+    <el-menu-item v-for="(item, idx) in tabList" :key="idx" :index="''+idx">{{item.label}}</el-menu-item>
+  </el-menu>
+  <div class="main">
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
+  </div>
   </div>
 </template>
 
@@ -27,7 +16,7 @@ export default {
   name: 'home',
   data() {
     return {
-      activeName: 'crawl',
+      activeIndex: '0',
       tabList: [{
         label: 'WebSpider',
         name: 'crawl',
@@ -50,42 +39,42 @@ export default {
     };
   },
   methods: {
-    handleClick(tab) {
-      this.$router.push(`/${tab.name}`);
+    handleClick(idx) {
+      this.$router.push(`/${this.tabList[idx].name}`);
     },
   },
   mounted() {
     const main = document.querySelector('.main');
-    main.style.height = `calc(100vh - ${main.offsetTop + 50}px)`;
-
+    let activeIndex = '0'
     switch (this.$route.name) {
-      case 'crawl': this.activeName = 'crawl'; break;
-      case 'guide': this.activeName = 'guide'; break;
-      case 'proxy': this.activeName = 'proxy'; break;
-      case 'share': this.activeName = 'share'; break;
-      case 'manage': this.activeName = 'manage'; break;
-      case 'log': this.activeName = 'log'; break;
-      default: this.activeName = 'crawl'; break;
+      case 'crawl': activeIndex = this.tabList.findIndex(n=>n.name === 'crawl'); break;
+      case 'guide': activeIndex = this.tabList.findIndex(n=>n.name === 'guide'); break;
+      case 'proxy': activeIndex = this.tabList.findIndex(n=>n.name === 'proxy'); break;
+      case 'share': activeIndex = this.tabList.findIndex(n=>n.name === 'share'); break;
+      case 'manage': activeIndex = this.tabList.findIndex(n=>n.name === 'manage'); break;
+      case 'log': activeIndex = this.tabList.findIndex(n=>n.name === 'log'); break;
     }
+    this.activeIndex = '' + activeIndex
   },
 };
 </script>
 
 <style lang="stylus">
 .container{
-  height calc(100vh - 30px)
+  height 100%
   width 70%
-  margin 20px auto 10px
-  .panel{
-    height 100%
-    .main{
-      padding-top 10px
-      height calc(100% - 10px)
-      overflow-y scroll
-      border 1px solid #dcdfe6
-      -webkit-box-shadow 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04)
-      box-shadow 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04)
-    }
+  margin 0 auto
+  -webkit-box-shadow 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04)
+  box-shadow 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04)
+  .head{
+    height 60px
+  }
+  .main{
+    padding-top 10px
+    height calc(100% - 70px)
+    width 100%
+    // border 1px solid yellow
+    overflow-y scroll
   }
 }
 
