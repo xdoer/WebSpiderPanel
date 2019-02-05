@@ -7,7 +7,14 @@
           <li>代理来源于<a href="https://www.xicidaili.com/" target="_blank" rel="noopener noreferrer">西刺代理</a>和<a href="https://free-proxy-list.net/" target="_blank" rel="noopener noreferrer">FreeProxyList</a></li>
           <li>检测原理:程序在设置代理后，对特定网站进行请求，检测返回的内容是否符合预期。</li>
         </ul>
-      </div>      
+      </div>
+      <div class="nav-btn">
+        <div class="nav-btn-left">
+          <span><a href="https://proxy.docmobile.cn" target="_blank" rel="noopener noreferrer">HttpProxy</a></span>
+          <span><a href="https://github.com/LuckyHH/HttpProxy" target="_blank" rel="noopener noreferrer">项目地址</a></span>
+          <span><a href="http://spider.docmobile.cn/b/proxy" target="_blank" rel="noopener noreferrer">API</a></span>
+        </div>
+      </div>
     </fieldset>
     <fieldset>
       <legend>结果面板</legend>
@@ -19,7 +26,7 @@
 </template>
 
 <script>
-import fetchProxies from '../api/proxy'
+import fetchProxies from '@/http/proxy'
 export default {
   name: 'Proxy',
   data () {
@@ -33,6 +40,7 @@ export default {
       this.result = res.data
     } catch(e) {
       console.log(`代理获取失败${e}`)
+      this.$message.error('代理获取失败')
     }
   }
 }
@@ -43,5 +51,22 @@ export default {
   width 80%
   height 100%
   margin 0 auto
+  .nav-btn{
+    height 30px
+    display flex
+    justify-content left
+    font-size 70%
+    color #868282
+    span{
+      cursor pointer
+      display inline-block
+      padding 0 10px
+    }
+    a{
+      font-size 70%
+      color #868282
+      text-decoration none
+    }
+  }
 }
 </style>

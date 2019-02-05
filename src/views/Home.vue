@@ -21,20 +21,20 @@ export default {
         label: 'WebSpider',
         name: 'crawl',
       }, {
-        label: 'Http代理',
+        label: 'HttpProxyLite',
         name: 'proxy',
       }, {
         label: 'API Store',
         name: 'share',
       }, {
         label: '管理面板',
-        name: 'manage',
+        name: 'enter',
       }, {
         label: '使用说明',
         name: 'guide',
       }, {
         label: '更新日志',
-        name: 'log',
+        name: 'history',
       }],
     };
   },
@@ -51,7 +51,7 @@ export default {
       case 'guide': activeIndex = this.tabList.findIndex(n=>n.name === 'guide'); break;
       case 'proxy': activeIndex = this.tabList.findIndex(n=>n.name === 'proxy'); break;
       case 'share': activeIndex = this.tabList.findIndex(n=>n.name === 'share'); break;
-      case 'manage': activeIndex = this.tabList.findIndex(n=>n.name === 'manage'); break;
+      case 'manage': activeIndex = this.tabList.findIndex(n=>n.name === 'enter'); break;
       case 'log': activeIndex = this.tabList.findIndex(n=>n.name === 'log'); break;
     }
     this.activeIndex = '' + activeIndex
@@ -71,10 +71,12 @@ export default {
   }
   .main{
     padding-top 10px
-    height calc(100% - 70px)
+    height calc(100% - 80px)
     width 100%
-    // border 1px solid yellow
     overflow-y scroll
+  }
+  .main::-webkit-scrollbar {
+    display none
   }
 }
 

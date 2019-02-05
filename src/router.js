@@ -5,7 +5,7 @@ import Home from './views/Home.vue';
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes: [
     {
@@ -26,17 +26,21 @@ export default new Router({
           name: 'guide',
           component: () => import('@/components/Guide')
         }, {
-          path: '/log',
-          name: 'log',
-          component: () => import('@/components/Log')
+          path: '/history',
+          name: 'history',
+          component: () => import('@/components/History')
         }, {
           path: '/manage',
           name: 'manage',
-          component: () => import('@/components/Manage')
+          component: () => import('@/components/Manage/manage')
         }, {
           path: '/share',
           name: 'share',
-          component: () => import('@/components/Share')
+          component: () => import('@/components/Share/index')
+        }, {
+          path: '/enter',
+          name: 'enter',
+          component: () => import('@/components/Manage/index')
         }]
     }, 
   ],

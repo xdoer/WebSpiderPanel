@@ -10,15 +10,21 @@ import {
   Radio,
   RadioGroup,
   RadioButton,
+  Card,
   Checkbox,
   CheckboxButton,
   CheckboxGroup,
   Select,
+  Switch,
   Option,
   Table,
+  Tag,
+  Menu,
+  MenuItem,
   TableColumn,
+  Message,  
   MessageBox,
-  Message,
+  Tooltip
 } from 'element-ui';
 
 Vue.use(Button);
@@ -35,12 +41,16 @@ Vue.use(Checkbox);
 Vue.use(CheckboxButton);
 Vue.use(CheckboxGroup);
 Vue.use(Select);
+Vue.use(Switch);
 Vue.use(Option);
 Vue.use(Table);
+Vue.use(Tag);
 Vue.use(TableColumn);
-// Vue.use(MessageBox);
-Vue.use(Message);
+Vue.use(Menu);
+Vue.use(Card);
+Vue.use(MenuItem);
+Vue.use(Tooltip);
 
-// Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$message = Message;

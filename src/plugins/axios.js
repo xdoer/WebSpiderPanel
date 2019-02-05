@@ -5,6 +5,7 @@
 import Vue from 'vue';
 import qs from 'qs';
 import axios from 'axios';
+import envConfig from '@/config';
 
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || 'http://localhost:3000';
@@ -12,10 +13,9 @@ import axios from 'axios';
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 const config = {
-  // baseURL: process.env.baseURL || process.env.apiUrl || ""
-  baseURL: 'http://localhost:3000',
+  baseURL: envConfig.baseUrl || process.env.apiUrl || "",
   // timeout: 60 * 1000, // Timeout
-  // withCredentials: true, // Check cross-site Access-Control
+  withCredentials: true, // Check cross-site Access-Control
 };
 
 const _axios = axios.create(config);
