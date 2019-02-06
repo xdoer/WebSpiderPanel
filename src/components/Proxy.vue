@@ -12,7 +12,7 @@
         <div class="nav-btn-left">
           <span><a href="https://proxy.docmobile.cn" target="_blank" rel="noopener noreferrer">HttpProxy</a></span>
           <span><a href="https://github.com/LuckyHH/HttpProxy" target="_blank" rel="noopener noreferrer">项目地址</a></span>
-          <span><a href="http://spider.docmobile.cn/b/proxy" target="_blank" rel="noopener noreferrer">API</a></span>
+          <span><a href="http://spider.docmobile.cn/proxy" target="_blank" rel="noopener noreferrer">API</a></span>
         </div>
       </div>
     </fieldset>
