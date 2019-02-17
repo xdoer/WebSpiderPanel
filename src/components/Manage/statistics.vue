@@ -32,6 +32,7 @@
           </ul>          
         </li>
       </ul>
+      <div style="padding-bottom:50px"></div>
     </div>
     <div v-else>
       <p>该API尚未初始化，没有该API调用信息</p>
