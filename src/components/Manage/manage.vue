@@ -34,28 +34,33 @@
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="onSideShow(scope.row, scope.$index, 'edit')">编辑</el-button>
           <el-button type="info" size="mini" @click="onSideShow(scope.row, scope.$index, 'detials')">详情</el-button>
+          <el-button type="info" size="mini" @click="onSideShow(scope.row, scope.$index, 'statistics')">统计</el-button>
           <el-button type="danger" size="mini" @click="onDeleteApi(scope.row, scope.$index)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <transition name="slide-fade">
-      <edit v-if="showEdit" v-show="showEdit" :editAPI="editAPI" @change-state="onChangeState"/>
-      <detail v-else v-show="showMore" :apiConfig="apiDetial" @change-state="onChangeState"/>
+      <edit v-if="showEdit" :editAPI="editAPI" @change-state="onChangeState"/>
+      <detail v-else-if="showMore" :apiConfig="apiDetial" @change-state="onChangeState"/>
+      <statistics v-else-if="showStatistics" :apiStatistics="apiStatistics" @change-state="onChangeState"/>
     </transition>
   </div>
 </template>
 
 <script>
 import { fetchManageConfig, deleteConfig } from '@/http/crawl'
+import { fetchStatistics } from '@/http/statistics'
 import envConfig from '@/config'
 import Edit from './edit'
 import Detail from './details'
+import Statistics from './statistics'
 
 export default {
   name: 'Manage',
   components: {
     Edit,
     Detail,
+    Statistics,
   },
   data() {
     return {
@@ -64,12 +69,14 @@ export default {
       apiDetial: {
         config: {},
       },
+      apiStatistics: {},
 
       page: 0,
       pageSize: 10,
 
       showEdit: false,
       showMore: false,
+      showStatistics: false,
     };
   },
   methods: {
@@ -86,12 +93,42 @@ export default {
           interval: config.interval,
         }
         this.showEdit = true
-        this.showMore = false        
-      } else {
+        this.showMore = false
+        this.showStatistics = false
+      } else if(type === 'detials') {
         this.apiDetial = config
         this.showMore = true
         this.showEdit = false
+        this.showStatistics = false
+      } else {
+        this.showMore = false
+        this.showEdit = false
+        this.showStatistics = true
+
+        this.getStatistics(config)
       }
+    },
+    getStatistics({ cid }) {
+      fetchStatistics({
+        cid
+      }).then(res => {
+        if (res.data.state) {
+          const { time, url, count, history } = res.data.data[0]
+          this.apiStatistics = {
+            state: true,
+            api: url,
+            count: count,
+            history: history,
+            time: new Date(Number.parseInt(time)).toLocaleString()
+          }
+        } else {
+          this.apiStatistics = {
+            state: false,
+          }
+        }
+      }).catch(e => {
+        console.log('出错啦')
+      })
     },
     onChangeState(type, state) {
       const ele = document.querySelector('.api-table')
@@ -100,6 +137,8 @@ export default {
         this.showEdit = state
       } else if (type === 'detials') {
         this.showMore = state
+      } else {
+        this.showStatistics = state
       }
     },
     onDeleteApi({cid}, idx) {
