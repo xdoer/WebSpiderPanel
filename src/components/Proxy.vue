@@ -10,7 +10,7 @@
       </div>
       <div class="nav-btn">
         <div class="nav-btn-left">
-          <span><a href="https://proxy.docmobile.cn" target="_blank" rel="noopener noreferrer">HttpProxy</a></span>
+          <span><a href="https://proxies.docmobile.cn" target="_blank" rel="noopener noreferrer">HttpProxy</a></span>
           <span><a href="https://github.com/LuckyHH/HttpProxy" target="_blank" rel="noopener noreferrer">项目地址</a></span>
           <span><a href="http://spider.docmobile.cn/proxy" target="_blank" rel="noopener noreferrer">API</a></span>
         </div>
@@ -39,8 +39,7 @@ export default {
       const res = await fetchProxies();
       this.result = res.data
     } catch(e) {
-      console.log(`代理获取失败${e}`)
-      this.$message.error('代理获取失败')
+      this.result = e
     }
   }
 }
