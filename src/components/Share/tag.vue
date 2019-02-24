@@ -59,7 +59,7 @@ export default {
       .then(res => {
         if (res.data.state) {
           this.apis = res.data.data.map(n => {
-            n.api = `${envConfig.baseUrl}/crawl/api?user=${n.author}&cid=${n.cid}`
+            n.api = `${ envConfig.baseUrl || window.location.origin }/crawl/api?user=${n.author}&cid=${n.cid}`
             return n 
           })
         } else {
