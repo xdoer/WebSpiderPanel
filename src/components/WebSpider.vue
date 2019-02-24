@@ -121,7 +121,7 @@ export default {
           {
             trigger: 'blur',
             validator: (rule, value, callback) => {
-              if (value === '' && this.ruleForm.proxyMode === '自定义代理') {
+              if (value === '' && this.ruleForm.proxyMode === 'own') {
                 callback(new Error('请输入代理地址'));
                 return;
               }
@@ -243,7 +243,7 @@ export default {
       this.ruleForm = {
         charset: 'utf-8',
         mode: 'pagination',
-        proxyMode: 'internal',
+        proxyMode: 'none',
         proxies: '',
         form: '{"title":"$element.attr(\'title\')"}',
         depth: 1,
