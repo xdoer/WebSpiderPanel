@@ -3,6 +3,14 @@
     <article>
       <h1>更新日志</h1>
 
+      <h2>3.1.0/2019-03-04</h2>
+
+      <blockquote><ul><li>前端PWA改造</li></ul></blockquote>
+
+      <h2>3.0.1/2019-02-17</h2>
+
+      <blockquote><ul><li>添加API调用统计面板</li></ul></blockquote>
+
       <h2>3.0.0/2019-02-04</h2>
 
       <blockquote><ul><li>爬虫配置模型增加API标签，描述等信息</li><li>添加 redis 控制 API 请求频率</li><li>优化代码模块划分</li><li>mocha代码测试</li><li>集成HttpProxy</li><li>esLint代码规范化</li><li>完备的说明文档</li><li>3种运行环境。可配置的程序运行记录模式</li><li>API调用次数统计</li><li>被动式数据更新模式,占用服务器资源更少。可配置的API&quot;更新间隔&quot;,兼顾API访问速度与数据时效性。</li></ul></blockquote>
