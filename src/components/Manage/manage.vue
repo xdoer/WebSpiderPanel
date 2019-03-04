@@ -172,21 +172,22 @@ export default {
   activated () {
     if (!this.$store.state.user) {
       this.$router.push('enter')
+    } else {
+      fetchManageConfig({ page: this.page, pageSize: this.pageSize })
+      .then(res => {
+        if (res.data.state) {
+          this.apis = res.data.data.map(n => {
+            n.api = `${ envConfig.baseUrl || window.location.origin }/crawl/api?user=${n.author}&cid=${n.cid}`
+            return n 
+          })        
+        } else {
+          console.log(res.data.msg)
+        }
+      })
+      .catch(e => {
+        console.log('捕获到错误',e)
+      })      
     }
-    fetchManageConfig({ page: this.page, pageSize: this.pageSize })
-    .then(res => {
-      if (res.data.state) {
-        this.apis = res.data.data.map(n => {
-          n.api = `${ envConfig.baseUrl || window.location.origin }/crawl/api?user=${n.author}&cid=${n.cid}`
-          return n 
-        })        
-      } else {
-        console.log(res.data.msg)
-      }
-    })
-    .catch(e => {
-      console.log('捕获到错误',e)
-    })
   }
 };
 </script>
