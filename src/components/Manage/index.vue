@@ -82,7 +82,11 @@ export default {
                     password: this.login.password
                 }).then(res => {
                     if(res.data.state){
-                        console.log("登录成功",res.data.data);
+                        localStorage.setItem('user', JSON.stringify({
+                          time: Date.now(),
+                          name: this.login.name,
+                          password: this.login.password     
+                        }))
                         this.$router.push("manage");
                     }else{
                         console.log(res.data.msg);
@@ -107,8 +111,12 @@ export default {
                     })
                     .then(res => {
                         if(res.data.state){
-                            console.log("注册成功",res.data.data);
-                            this.$router.push("manage");
+                          localStorage.setItem('user', JSON.stringify({
+                            time: Date.now(),
+                            name: this.login.name,
+                            password: this.login.password     
+                          }))
+                          this.$router.push("manage");
                         }else{
                             this.$message.error(res.data.data);
                         }
@@ -125,17 +133,37 @@ export default {
         })
     },
   },
-    activated () {
-        if(this.$store.state.user){
-            this.$router.push("manage");
-        }else{
-            this.$store.dispatch('setUser').then(()=>{
-                this.$router.push("manage");
-            }).catch(()=>{
-                console.error("未登录");
-            })
-        }
-    }
+  activated () {
+      if(this.$store.state.user){
+          this.$router.push("manage");
+      }else{
+          this.$store.dispatch('setUser').then(()=>{
+              this.$router.push("manage");
+          }).catch(()=>{
+              let obj = localStorage.getItem('user')
+              if (obj) {
+                obj = JSON.parse(obj)
+                // 小于等于30天,程序根据localStorage中的凭证自动登录
+                if (((Date.now() - obj.time) / (1000 * 60 * 60 * 24)) <= 30 ){
+                  userLogin({
+                      name: obj.name,
+                      password: obj.password
+                  }).then(res => {
+                      if(res.data.state){
+                          this.$store.commit('setUser', res.data.data);
+                          this.$router.push("manage");
+                      }else{
+                          console.log(res.data.msg);
+                          this.$message.error(res.data.msg);
+                      }
+                  }).catch(e => {
+                      this.$message.error(e);
+                  })
+                }                
+              }
+          })
+      }
+  }
 }
 </script>
 
