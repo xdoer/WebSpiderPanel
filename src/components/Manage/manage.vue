@@ -181,7 +181,7 @@ export default {
           return n 
         })        
       } else {
-        this.$message.error(res.data.msg)
+        console.log(res.data.msg)
       }
     })
     .catch(e => {
