@@ -137,9 +137,9 @@ export default {
       if(this.$store.state.user){
           this.$router.push("manage");
       }else{
-          this.$store.dispatch('setUser').then(()=>{
-              this.$router.push("manage");
-          }).catch(()=>{
+          // this.$store.dispatch('setUser').then(()=>{
+          //     this.$router.push("manage");
+          // }).catch(()=>{
               let obj = localStorage.getItem('user')
               if (obj) {
                 obj = JSON.parse(obj)
@@ -161,7 +161,7 @@ export default {
                   })
                 }                
               }
-          })
+          // })
       }
   }
 }
