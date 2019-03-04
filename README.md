@@ -14,5 +14,11 @@ WebSpider在线爬虫系统采用了前后端分离设计。本文档将对前�
 >* 使用说明: WebSpider使用说明
 >* 更新日志: 在线爬虫更新日志模块
 
+## 命令
+>* `npm run serve` 启动项目
+>* `npm run build` 打包项目
+
 ## 其他
-如果需要将WebSpider程序部署到实际生产环境，请修改`/src/config/index.js`文件中的参数，保存后打包，用新生成的`/dist`中的文件替换WebSpider项目`/static/prod`中文件即可。
+请先下载静态资源文件,打包静态文件后将`/dist`中的文件拖到 WebSpider 项目下的 `/static` 文件夹中。
+
+如果由 Nginx 等分发前端代码文件，请先修改`/src/config/index.js`文件中的参数，保存后再打包。
