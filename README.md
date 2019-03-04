@@ -19,6 +19,6 @@ WebSpider在线爬虫系统采用了前后端分离设计。本文档将对前�
 >* `npm run build` 打包项目
 
 ## 其他
-请先下载静态资源文件,打包静态文件后将`/dist`中的文件拖到 WebSpider 项目下的 `/static` 文件夹中。
+请先下载本项目,运行打包命令后,将`/dist`中的文件拖到 WebSpider 项目下的 `/static` 文件夹中。
 
 如果由 Nginx 等分发前端代码文件，请先修改`/src/config/index.js`文件中的参数，保存后再打包。
