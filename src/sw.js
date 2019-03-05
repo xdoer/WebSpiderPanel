@@ -1,3 +1,4 @@
+/* eslint-disable */
 importScripts('/daxie.js')
 
 let db = null
@@ -34,7 +35,12 @@ self.addEventListener('fetch', function (event) {
       fetch(event.request.clone())
         .then(function (response) {
           // If it works, put the response into IndexedDB
-          cachePut(event.request.clone(), response.clone(), db.post_cache);
+          const req = event.request.clone()
+
+          // API接口不缓存
+          if (!/crawl\/api/i.test(req.url.href)) {
+            cachePut(req, response.clone(), db.post_cache);
+          }
           return response;
         })
         .catch(function () {
