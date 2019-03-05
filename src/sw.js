@@ -1,7 +1,12 @@
 importScripts('/daxie.js')
 
+let db = null
 self.addEventListener('install', (event) => {
-  console.log('Version installing', event);
+  db = new Dexie("post_cache");
+  db.version(1).stores({
+    post_cache: 'key,response,timestamp'
+  })
+  console.log('Version installing');
 });
 
 self.addEventListener('activate', (event) => {
@@ -22,22 +27,8 @@ self.addEventListener('activate', (event) => {
  * 问题描述:https://stackoverflow.com/questions/35270702/can-service-workers-cache-post-requests
  */
 
-let db = null
+
 self.addEventListener('fetch', function (event) {
-  // We will cache all POST requests, but in the real world, you will probably filter for
-  // specific URLs like if(... || event.request.url.href.match(...))
-  // if (event.request.method === "POST") {
-
-    // Init the cache. We use Dexie here to simplify the code. You can use any other
-    // way to access IndexedDB of course.
-
-    if (!db) {
-      var db = new Dexie("post_cache");
-      db.version(1).stores({
-        post_cache: 'key,response,timestamp'
-      })      
-    }
-
     event.respondWith(
       // First try to fetch the request from the server
       fetch(event.request.clone())
@@ -52,15 +43,8 @@ self.addEventListener('fetch', function (event) {
           return cacheMatch(event.request.clone(), db.post_cache);
         })
     );
-  // }
 })
 
-/**
- * Serializes a Request into a plain JS object.
- * 
- * @param request
- * @returns Promise
- */
 function serializeRequest(request) {
   var serialized = {
     url: request.url,
@@ -83,12 +67,6 @@ function serializeRequest(request) {
   return Promise.resolve(serialized);
 }
 
-/**
- * Serializes a Response into a plain JS object
- * 
- * @param response
- * @returns Promise
- */
 function serializeResponse(response) {
   var serialized = {
     headers: serializeHeaders(response.headers),
@@ -102,38 +80,19 @@ function serializeResponse(response) {
   });
 }
 
-/**
- * Serializes headers into a plain JS object
- * 
- * @param headers
- * @returns object
- */
 function serializeHeaders(headers) {
   var serialized = {};
-  // `for(... of ...)` is ES6 notation but current browsers supporting SW, support this
-  // notation as well and this is the only way of retrieving all the headers.
+
   for (var entry of headers.entries()) {
     serialized[entry[0]] = entry[1];
   }
   return serialized;
 }
 
-/**
- * Creates a Response from it's serialized version
- * 
- * @param data
- * @returns Promise
- */
 function deserializeResponse(data) {
   return Promise.resolve(new Response(data.body, data));
 }
 
-/**
- * Saves the response for the given request eventually overriding the previous version
- * 
- * @param data
- * @returns Promise
- */
 function cachePut(request, response, store) {
   var key, data;
   getPostId(request.clone())
@@ -155,12 +114,6 @@ function cachePut(request, response, store) {
     });
 }
 
-/**
- * Returns the cached response for the given request or an empty 503-response  for a cache miss.
- * 
- * @param request
- * @return Promise
- */
 function cacheMatch(request) {
   return getPostId(request.clone())
     .then(function (id) {
@@ -174,12 +127,6 @@ function cacheMatch(request) {
     });
 }
 
-/**
- * Returns a string identifier for our POST request.
- * 
- * @param request
- * @return string
- */
 function getPostId(request) {
   return Promise.resolve(JSON.stringify(serializeRequest(request.clone())));
 }
