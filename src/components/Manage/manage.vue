@@ -169,7 +169,7 @@ export default {
       });
     },
   },
-  activated () {
+  mounted () {
     if (!this.$store.state.user) {
       this.$router.push('enter')
     } else {
