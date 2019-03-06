@@ -23,13 +23,18 @@ self.addEventListener('activate', (event) => {
  * 
  * 发起请求时，检查 key ,从 indexDB 中再取出 response ,再反序列化进行响应
  * 
- * 
  * 参考代码:https://a.kabachnik.info/offline-post-requests-via-service-worker-and-indexeddb.html
  * 问题描述:https://stackoverflow.com/questions/35270702/can-service-workers-cache-post-requests
  */
 
 
 self.addEventListener('fetch', function (event) {
+    if (!db) {
+      db = new Dexie("post_cache");
+      db.version(1).stores({
+        post_cache: 'key,response,timestamp'
+      })
+    }
     event.respondWith(
       // First try to fetch the request from the server
       fetch(event.request.clone())
@@ -120,7 +125,7 @@ function cachePut(request, response, store) {
     });
 }
 
-function cacheMatch(request) {
+function cacheMatch(request, store) {
   return getPostId(request.clone())
     .then(function (id) {
       return store.get(id);
