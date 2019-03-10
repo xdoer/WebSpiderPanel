@@ -116,7 +116,7 @@ export default {
           const { time, url, count, history } = res.data.data[0]
           this.apiStatistics = {
             state: true,
-            api: url,
+            api: ( envConfig.baseUrl || window.location.origin ) + url,
             count: count,
             history: history,
             time: new Date(Number.parseInt(time)).toLocaleString()
@@ -169,7 +169,7 @@ export default {
       });
     },
   },
-  mounted () {
+  activated () {
     if (!this.$store.state.user) {
       this.$router.push('enter')
     } else {
