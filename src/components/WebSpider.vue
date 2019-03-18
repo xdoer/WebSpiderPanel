@@ -68,10 +68,10 @@
       </div>
       <div class="nav-btn">
         <div class="nav-btn-left">
-          <span><a href="https://www.docmobile.cn/artical_detiail/luckyhh/1528369921460" target="_blank">参考配置</a></span>
+          <span><a href="https://hanblog.herokuapp.com/artical_detiail/luckyhh/1528369921460" target="_blank">参考配置</a></span>
           <span><a href="https://github.com/LuckyHH/WebSpider" target="_blank" rel="noopener noreferrer">项目地址</a></span>
           <span><a href="https://github.com/LuckyHH/WebSpider/issues" target="_blank" rel="noopener noreferrer">报错</a></span>
-          <span><a href="https://www.docmobile.cn" target="_blank" rel="noopener noreferrer">文享日志</a></span>
+          <span><a href="https://hanblog.herokuapp.com" target="_blank" rel="noopener noreferrer">文享日志</a></span>
         </div>
         <div class="nav-btn-right">
           <span @click="onInstanceFill">实例填充</span>
