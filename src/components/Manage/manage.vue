@@ -90,7 +90,7 @@ export default {
       apiStatistics: {},
 
       page: 0,
-      pageSize: 10,
+      pageSize: 20,
 
       showEdit: false,
       showMore: false,

@@ -71,7 +71,7 @@ export default {
     return {
       apis: [],
       page: 0,
-      pageSize: 10,
+      pageSize: 20,
       show: false, // 控制类别面板显示
       tag: '', // 传递到Tag组件
       flag: true,
