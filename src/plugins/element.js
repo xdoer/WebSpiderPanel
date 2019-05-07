@@ -24,7 +24,8 @@ import {
   TableColumn,
   Message,  
   MessageBox,
-  Tooltip
+  Tooltip,
+  Pagination
 } from 'element-ui';
 
 Vue.use(Button);
@@ -50,6 +51,7 @@ Vue.use(Menu);
 Vue.use(Card);
 Vue.use(MenuItem);
 Vue.use(Tooltip);
+Vue.use(Pagination);
 
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$confirm = MessageBox.confirm;

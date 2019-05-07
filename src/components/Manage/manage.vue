@@ -2,6 +2,8 @@
   <div class="manage">
     <el-table
       :data="apis"
+      v-loadmore="getNewData"
+      height="calc(100% - 10px)"
       class="api-table">
       <el-table-column :show-overflow-tooltip="true" type="expand">
         <template slot-scope="props">
@@ -62,6 +64,22 @@ export default {
     Detail,
     Statistics,
   },
+  directives: {
+    loadmore: {
+      // 指令的定义
+      bind(el, binding, vnode) {
+        const selectWrap = el.querySelector('.el-table__body-wrapper')
+        selectWrap.addEventListener('scroll', function() {
+          const sign = 50
+          const scrollDistance = this.scrollHeight - this.scrollTop - this.clientHeight
+          if (scrollDistance <= sign) {
+            binding.value()
+            vnode.context.getNewData()
+          }
+        })
+      }
+    }
+  },
   data() {
     return {
       apis: [],
@@ -77,6 +95,8 @@ export default {
       showEdit: false,
       showMore: false,
       showStatistics: false,
+
+      flag: true
     };
   },
   methods: {
@@ -168,6 +188,29 @@ export default {
         this.$message.info('已取消删除');
       });
     },
+    getNewData() {
+      if (this.flag) {
+        this.flag = false
+        fetchManageConfig({ page: ++this.page, pageSize: this.pageSize })
+        .then(res => {
+          if (res.data.state) {
+            this.apis = res.data.data.map(n => {
+              n.api = `${ envConfig.baseUrl || window.location.origin }/crawl/api?user=${n.author}&cid=${n.cid}`
+              return n 
+            })    
+            this.flag = res.data.data.length === this.pageSize    
+          } else {
+            this.flag = false
+            this.$message.info(res.data.msg);
+          }
+        })
+        .catch(e => {
+          this.$message.error(e);
+        })         
+      } else {
+        console.log("无新数据");
+      }
+    }
   },
   activated () {
     if (!this.$store.state.user) {

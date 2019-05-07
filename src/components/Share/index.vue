@@ -2,6 +2,8 @@
   <div class="share">
     <el-table
       :data="apis"
+      v-loadmore="getNewData"
+      height="calc(100% - 10px)"
       style="width: 100%">
       <el-table-column :show-overflow-tooltip="true" type="expand">
         <template slot-scope="props">
@@ -18,7 +20,6 @@
             <el-form-item label="描述信息" style="width:100%">
               <span>{{ props.row.description }}</span>
             </el-form-item>
-
           </el-form>
         </template>
       </el-table-column>
@@ -47,32 +48,33 @@ import envConfig from '@/config'
 
 export default {
   name: 'Share',
-  components: {
+  components: { 
     Tag
+  },
+  directives: {
+    loadmore: {
+      // 指令的定义
+      bind(el, binding, vnode) {
+        const selectWrap = el.querySelector('.el-table__body-wrapper')
+        selectWrap.addEventListener('scroll', function() {
+          const sign = 50
+          const scrollDistance = this.scrollHeight - this.scrollTop - this.clientHeight
+          if (scrollDistance <= sign) {
+            binding.value()
+            vnode.context.getNewData()
+          }
+        })
+      }
+    }
   },
   data() {
     return {
-      apis: [{
-        api: 'http://localhost:3000/crawl/api?user=han&cid=a',
-        interval: 0,
-        config: {
-          url: 'https://www.thepaper.cn',
-          charset: 'utf-8',
-          proxyMode: 'none',
-          mode: 'plain',
-          depth: '2',
-          tags: ['aaa'],
-          form: 'aaaa',
-          start: 1,
-          end: 2
-        },
-        tag: ['新闻', '足球'],
-        description: '无描述信息',
-      }],
+      apis: [],
       page: 0,
       pageSize: 10,
       show: false, // 控制类别面板显示
       tag: '', // 传递到Tag组件
+      flag: true,
     }
   },
   methods: {
@@ -87,8 +89,39 @@ export default {
       ele.style.width = '100%'
       this.show = false
     },
+    getNewData() {
+      if (this.flag) {
+        this.flag = false
+        try {
+          fetchShareConfig({
+            page: ++this.page,
+            pageSize: this.pageSize
+          }).then(res => {
+            if (res.data.state) {
+              this.apis = this.apis.concat(res.data.data.map(n => {
+                n.api = `${ envConfig.baseUrl || window.location.origin }/crawl/api?user=${n.author}&cid=${n.cid}`
+                return n 
+              }))
+              this.flag = res.data.data.length === this.pageSize
+            } else {
+              this.flag = false
+              this.$message.info(res.data.msg);
+            }
+          })
+        } catch(e) {
+          this.$message.error(e);
+        }        
+      } else {
+        console.log("无新数据");
+      }
+    }
   },
   activated() {
+    this.apis = []
+    this.page = 0
+    this.show = false
+    this.tag = ''
+    this.flag = true
     try {
       fetchShareConfig({
         page: this.page,
