@@ -201,7 +201,6 @@ export default {
             this.flag = res.data.data.length === this.pageSize    
           } else {
             this.flag = false
-            this.$message.info(res.data.msg);
           }
         })
         .catch(e => {
@@ -216,6 +215,21 @@ export default {
     if (!this.$store.state.user) {
       this.$router.push('enter')
     } else {
+      this.apis = []
+      this.editAPI= {}
+      this.apiDetial= {
+        config: {},
+      },
+      this.apiStatistics= {}
+
+      this.page= 0
+      this.pageSize= 20
+
+      this.showEdit= false
+      this.showMore= false
+      this.showStatistics= false
+
+      this.flag= true
       fetchManageConfig({ page: this.page, pageSize: this.pageSize })
       .then(res => {
         if (res.data.state) {

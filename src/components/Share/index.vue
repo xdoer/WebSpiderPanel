@@ -105,7 +105,6 @@ export default {
               this.flag = res.data.data.length === this.pageSize
             } else {
               this.flag = false
-              this.$message.info(res.data.msg);
             }
           })
         } catch(e) {
