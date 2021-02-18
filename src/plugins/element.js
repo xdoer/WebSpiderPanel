@@ -22,9 +22,9 @@ import {
   Menu,
   MenuItem,
   TableColumn,
-  Message,  
+  Message,
   MessageBox,
-  Tooltip
+  Tooltip,
 } from 'element-ui';
 
 Vue.use(Button);
