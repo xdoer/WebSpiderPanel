@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from "vue";
 import {
   Button,
   Tabs,
@@ -22,10 +22,11 @@ import {
   Menu,
   MenuItem,
   TableColumn,
-  Message,  
+  Message,
   MessageBox,
-  Tooltip
-} from 'element-ui';
+  Tooltip,
+  Pagination
+} from "element-ui";
 
 Vue.use(Button);
 Vue.use(Tabs);
@@ -50,6 +51,7 @@ Vue.use(Menu);
 Vue.use(Card);
 Vue.use(MenuItem);
 Vue.use(Tooltip);
+Vue.use(Pagination);
 
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$confirm = MessageBox.confirm;

@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from 'vue';
 
 export default {
   get(url, config) {
@@ -13,5 +13,5 @@ export default {
     return Vue.axios.delete(url, {
       params: config,
     });
-  }
-}
+  },
+};
