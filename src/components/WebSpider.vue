@@ -42,19 +42,6 @@
             <el-input v-model="ruleForm.tags[i-1]"></el-input>
           </el-form-item>
 
-
-          <el-form-item label="代理模式" prop="proxyMode">
-            <el-select v-model="ruleForm.proxyMode" placeholder="请选择代理模式">
-              <el-option label="内置代理" value="internal"></el-option>
-              <el-option label="无代理" value="none"></el-option>
-              <el-option label="自定义代理" value="own"></el-option>
-            </el-select>
-          </el-form-item>
-
-          <el-form-item label="代理地址" prop="proxies" v-if="ruleForm.proxyMode === 'own'">
-            <el-input v-model="ruleForm.proxies"  placeholder="请输入代理地址,多个代理地址请用英文逗号隔开。例如: http://24.48.0.1:888,http://24.48.0.1:887"></el-input>
-          </el-form-item>
-
           <el-form-item label="输出格式" prop="form">
             <el-input type="textarea" v-model="ruleForm.form"></el-input>
           </el-form-item>
@@ -101,8 +88,6 @@ export default {
         url: '',
         charset: 'utf-8',
         mode: 'plain',
-        proxyMode: 'internal',
-        proxies: '',
         form: '',
         depth: 1,
         tags: [],
@@ -115,25 +100,6 @@ export default {
             required: true,
             message: '请输入抓取地址', 
             trigger: 'blur',
-          },
-        ],
-        proxies: [
-          {
-            trigger: 'blur',
-            validator: (rule, value, callback) => {
-              if (value === '' && this.ruleForm.proxyMode === 'own') {
-                callback(new Error('请输入代理地址'));
-                return;
-              }
-              if (value) {
-                const m = value.split(',');
-                if (m.every(n => /^http:\/\/((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?):\d{2,5}/g.test(n))) {
-                  callback();
-                } else {
-                  callback(new Error('请输入正确的代理地址(请求头+ip+端口号)(http://139.194.45.106:121)'));
-                }
-              }
-            },
           },
         ],
         form: [
@@ -181,10 +147,7 @@ export default {
         this.$refs[formName].validate(valid => {
           if (valid) {
             this.result = '数据正在抓取中，请等待...'
-            fetchPreview({
-              ...this.ruleForm,
-              proxies: this.ruleForm.proxies.split(',').filter(n => Boolean(n)),
-            }).then(res => {
+            fetchPreview(this.ruleForm).then(res => {
               this.result = res.data;
               this.state = true
             }).catch(e => {
@@ -220,10 +183,7 @@ export default {
         this.$refs[formName].validate(valid => {
           if (valid) {
             this.result = '配置保存中...'
-            saveConfig({
-              ...this.ruleForm,
-              proxies: this.ruleForm.proxies.split(',').filter(n => Boolean(n)),
-            }).then(res => {
+            saveConfig(this.ruleForm).then(res => {
               if (res.data.state) {
                 this.result = '配置保存成功，详细信息请在\'管理面板\'中查看'
               } else {
@@ -242,16 +202,13 @@ export default {
     onInstanceFill() {
       this.ruleForm = {
         charset: 'utf-8',
-        mode: 'pagination',
-        proxyMode: 'none',
-        proxies: '',
-        form: '{"title":"$element.attr(\'title\')"}',
-        depth: 1,
-        tags: ['$(".Article_Title a")'],
-        start: 1,
-        end: 5,
-        url: 'http://www.shzu.edu.cn/3/list*.htm',
-      }
+        mode: 'plain',
+        form:
+          '{"title": "$element.children(\'.news_title\').text()","content": "$element.children(\'.news_txt\').text()"}',
+        depth: 2,
+        tags: ["$('.news_li').children('h2').children('a')", "$('.newscontent')"],
+        url: 'https://www.thepaper.cn/',
+      };
     },
     // 重置表格
     onReset() {
@@ -259,8 +216,6 @@ export default {
         url: '',
         charset: 'utf-8',
         mode: 'plain',
-        proxyMode: 'internal',
-        proxies: '',
         form: '',
         depth: 1,
         tags: [],

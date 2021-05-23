@@ -20,10 +20,7 @@ export default {
       tabList: [{
         label: 'WebSpider',
         name: 'crawl',
-      }, {
-        label: 'HttpProxyLite',
-        name: 'proxy',
-      }, {
+      },{
         label: 'API Store',
         name: 'share',
       }, {

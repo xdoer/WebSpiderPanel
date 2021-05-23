@@ -36,7 +36,6 @@
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="onSideShow(scope.row, scope.$index, 'edit')">编辑</el-button>
           <el-button type="info" size="mini" @click="onSideShow(scope.row, scope.$index, 'detials')">详情</el-button>
-          <el-button type="info" size="mini" @click="onSideShow(scope.row, scope.$index, 'statistics')">统计</el-button>
           <el-button type="danger" size="mini" @click="onDeleteApi(scope.row, scope.$index)">删除</el-button>
         </template>
       </el-table-column>
